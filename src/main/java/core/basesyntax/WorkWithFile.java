@@ -12,7 +12,6 @@ public class WorkWithFile {
     private static final String BUY = "buy";
     private static final String RESULT = "result";
     private static final String SEPARATOR = ",";
-
     public void getStatistic(String fromFileName, String toFileName) {
         String report = createReport(readFile(fromFileName));
         writeToFile(toFileName, report);
@@ -44,8 +43,10 @@ public class WorkWithFile {
 
         int result = supplySum - buySum;
         StringBuilder reportBuilder = new StringBuilder();
-        reportBuilder.append(SUPPLY).append(SEPARATOR).append(supplySum).append(System.lineSeparator())
-                .append(BUY).append(SEPARATOR).append(buySum).append(System.lineSeparator())
+        reportBuilder.append(SUPPLY).append(SEPARATOR).append(supplySum)
+                .append(System.lineSeparator())
+                .append(BUY).append(SEPARATOR).append(buySum)
+                .append(System.lineSeparator())
                 .append(RESULT).append(SEPARATOR).append(result);
 
         return reportBuilder.toString();
