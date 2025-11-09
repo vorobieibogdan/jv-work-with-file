@@ -44,9 +44,9 @@ public class WorkWithFile {
         int result = supplySum - buySum;
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append(SUPPLY).append(SEPARATOR).append(supplySum)
-                .append(System.lineSeparator())
+                .append("\n")
                 .append(BUY).append(SEPARATOR).append(buySum)
-                .append(System.lineSeparator())
+                .append("\n")
                 .append(RESULT).append(SEPARATOR).append(result);
 
         return reportBuilder.toString();
