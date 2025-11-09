@@ -13,52 +13,33 @@ public class WorkWithFile {
     private static final String SEPARATOR = ",";
 
     public void getStatistic(String fromFileName, String toFileName) {
-        String report = createReport(readFile(fromFileName));
-        writeToFile(toFileName, report);
-    }
-
-    private String[] readFile(String fromFileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fromFileName))) {
-            return reader.lines().toArray(String[]::new);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't read data from file: " + fromFileName, e);
-        }
-    }
-
-    private String createReport(String[] lines) {
         int supplySum = 0;
         int buySum = 0;
 
-        for (String line : lines) {
-            String[] parts = line.split(SEPARATOR);
-            String operation = parts[0];
-            int amount = Integer.parseInt(parts[1]);
-
-            if (operation.equals(SUPPLY)) {
-                supplySum += amount;
-            } else if (operation.equals(BUY)) {
-                buySum += amount;
+        try (BufferedReader reader = new BufferedReader(new FileReader(fromFileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(SEPARATOR);
+                if (parts[0].equals(SUPPLY)) {
+                    supplySum += Integer.parseInt(parts[1]);
+                } else if (parts[0].equals(BUY)) {
+                    buySum += Integer.parseInt(parts[1]);
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Can't read data from file: " + fromFileName, e);
         }
 
         int result = supplySum - buySum;
-        StringBuilder reportBuilder = new StringBuilder();
-        reportBuilder.append(SUPPLY).append(SEPARATOR).append(supplySum)
-                .append("\n")
-                .append(BUY).append(SEPARATOR).append(buySum)
-                .append("\n")
-                .append(RESULT).append(SEPARATOR).append(result);
+        String report = SUPPLY + SEPARATOR + supplySum + "\n"
+                + BUY + SEPARATOR + buySum + "\n"
+                + RESULT + SEPARATOR + result;
 
-        return reportBuilder.toString();
-    }
-
-    private void writeToFile(String toFileName, String data) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(toFileName))) {
-            writer.write(data);
+            writer.write(report);
         } catch (IOException e) {
             throw new RuntimeException("Can't write data to file: " + toFileName, e);
         }
     }
 }
-
 
